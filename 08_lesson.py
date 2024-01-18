@@ -1,4 +1,4 @@
-from typing import Callable, Sequence
+from typing import Callable, Sequence, TypeVar
 
 class Emploee:
     def __init__(self, name: str) -> None:
@@ -17,10 +17,22 @@ class Accountant(Emploee):
 
 programmer = Programmer('Vasya')
 accountant = Accountant('Lena')
+emploee = Emploee('Ivan')
 
 # Ковариативность 
 #    - это нормально создать "контейнер" для работников, который поддерживает любые подтипы Employee
-list_of_emploees: Sequence[Emploee] = [programmer, accountant]
+
+T_co = TypeVar('T_co', covariant=True)
+
+class PeopleList[T_co]:
+    def __init__(self, _list: list[T_co]) -> None:
+        self._list = _list
+
+
+list_of_emploees1: PeopleList[Emploee] = PeopleList([programmer, accountant])
+
+# в этой ситуации уже некорректно добавлять в список программистов более общий тип Emploee
+list_of_emploees2: PeopleList[Programmer] = PeopleList([emploee, programmer])
 
 # Контрвариативность
 def assign_task_to_programmer(
