@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Self, Type
 from copy import deepcopy
+import pickle
 
 
 class General(ABC):
@@ -27,6 +28,13 @@ class General(ABC):
 
     # Печать
     def __repr__(self) -> str: return f"{self.__class__}"
+
+    # Сериализация
+    def serialize(self) -> bytes:
+        return pickle.dumps(self)
+
+    def deserialize(self, bts: bytes) -> Self:
+        return pickle.loads(bts)
 
     # Проверка типа
     def __instancecheck__(self, instance) -> bool:
