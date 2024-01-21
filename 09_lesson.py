@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Self
+from typing import Self, Type
+from copy import deepcopy
 
 
 class General(ABC):
@@ -8,10 +9,14 @@ class General(ABC):
     хотя в современном Python обычно опускают это
     """
 
-    def _copy(self) -> Self: 
-        
+    # Клонирование
+    def _copy(self, other) -> Self: 
+        # ничего лучше не придумал
+        other.__dict__ = deepcopy(self.__dict__)
 
-    def _clone(sefl) -> Self: pass
+    # Клонирование
+    def _clone(self) -> Self:
+        return deepcopy(self)
 
     # Сравнение
     def __eq__(self, other) -> bool: return self == other
@@ -22,15 +27,13 @@ class General(ABC):
 
     # Печать
     def __repr__(self) -> str: return f"{self.__class__}"
-    def __str__(self) -> str: return f"{self.__class__}"
-
 
     # Проверка типа
     def __instancecheck__(self, instance) -> bool:
         return isinctanse(self, instance)
 
     # получение реального типа объекта
-    def _get_class(self) -> Self:
+    def _get_class(self) -> Type[Self]:
         # Специального дандр метода под это врое бы нет в Python
         return self.__class__
 
