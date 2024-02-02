@@ -14,13 +14,12 @@ class General(ABC):
     _COPY_ERR = 2
 
     # Попытка присваивания (Команда)
-    def assigment_attempt(self, target: _T, source: bytes) -> None:
-        obj = self.deserialize(source)
-        try:
-            target = Self(obj)
-        except Exception:
-            pass
-        target = Void
+    @classmethod
+    def assigment_attempt(cls, target: object, source: bytes) -> Self | Type[Void]:
+        if isinstance(target, cls) and isinstance(source, cls):
+            target.value = source.value
+            return target
+        return Void
 
 
     # Вспомогательные

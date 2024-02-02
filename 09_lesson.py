@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import Self, Type, final, Any
+from abc import ABC
+from typing import Self, Type, final, TypeVar, Any
 from copy import deepcopy
 import pickle
 
@@ -7,7 +7,7 @@ import pickle
 _T = TypeVar('_T')
 
 
-class General(ABC, Object):
+class General(ABC):
     """
     Укажем как унаследованный от Object для наглядности,
     хотя в современном Python обычно опускают это
@@ -17,7 +17,7 @@ class General(ABC, Object):
     _COPY_ERR = 2
 
     # Вспомогательные
-    def __get_not_status_attrs(self) -> set[Any]:
+    def __get_not_status_attrs(self) -> set[str]:
         return set(
             attr for attr in dir(self)
             if not attr.endswith('status')
@@ -68,7 +68,7 @@ class General(ABC, Object):
     # Проверка типа
     @final
     def __instancecheck__(self, instance) -> bool:
-        return isinctanse(self, instance)
+        return isinstance(self, instance)
 
     # получение реального типа объекта
     @final
