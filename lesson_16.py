@@ -41,7 +41,7 @@ class CoffeeFactory(BeverageFactory[Coffee]):
 
 # Демонстрация ковариантного вызова
 coffee_factory: BeverageFactory[Coffee] = CoffeeFactory()
-print(coffee_factory.get_beverage().serve())  # Печать: Serving coffee
+coffee_factory.get_beverage().serve()  # Печать: Serving coffee
 
 tea_factory: BeverageFactory[Tea] = TeaFactory()
-print(tea_factory.get_beverage().serve())  # Печать: Serving tea
+tea_factory.get_beverage().serve()  # Печать: Serving tea
